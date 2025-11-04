@@ -1,23 +1,19 @@
 import { Injectable } from '@nestjs/common';
-
-export type User = any;
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { User } from '../schemas/index';
 
 @Injectable()
-
 export class UsersService {
-    private readonly user = [
-        {
-            userId: 1,
-            email: 'admin@gmail.com',
-            password: '12345678qQ',
-        },
-        {
-            userId: 2,
-            email: 'john@gmail.com',
-            password: '123456aA',
-        }
-    ]
-    async findOne(email: string): Promise<User | undefined> {
-        return this.user.find(user => user.email === email)
-    }
+  
+  // Inject UserModel vào constructor:
+  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+
+   async findOne(usernameOrEmail: string): Promise<User | undefined> {
+    // Tìm bằng cả username hoặc email
+    return this.userModel
+      .findOne({
+        $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
+      )
+    }.exec(); 
 }

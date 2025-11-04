@@ -13,6 +13,7 @@ export class AuthController {
     async Login(@Body() LoginDto: Record<string, any>) {
         return this.authService.login(LoginDto.email, LoginDto.password);
     }
+    
 
 
 }
