@@ -5,16 +5,20 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
+    AuthService: any;
     constructor() {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
-            secretOrKey: '123'
+            secretOrKey: '123',
+
 
         });
     }
+    //tự động chạy khi có request có token
     async validate(payload: any) {
-        return { userId: payload.sub, email: payload.email };
+        const user = await this.AuthService.validateUser(payload.sub)
+        return user;
     }
 
 }
