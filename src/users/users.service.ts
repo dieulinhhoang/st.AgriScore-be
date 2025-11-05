@@ -24,6 +24,12 @@ export class UsersService {
     async findAll() {
         return this.userModel.find()
             .select('-passwordHash') // ko lay password
+            .select('-username')
+            .select('-createdAt')
+            .select('-updatedAt')
+            .select('-isActive')
+            .select('-_id')
+            .select('-__v')
             .exec();
     }
 
@@ -36,34 +42,34 @@ export class UsersService {
     async findbyUserName(username: string) {
         return this.userModel.findOne({ username }).exec();
     }
-    async findbyUsernamAndPassword(username:string , password:string){
-        
+    async findbyUsernamAndPassword(username: string, password: string) {
+
     }
     // update 
     async update(id: string, updateData: any) {
         return this.userModel.findByIdAndUpdate(
             id,
             updateData,
-            {new: true}
+            { new: true }
         ).select('-passwordHash').exec();
     }
     //remove
 
-    async remove(id:string){
+    async remove(id: string) {
         return this.userModel.findByIdAndDelete(id).exec();
     }
     // tk
 
-    async search(key:string){
+    async search(key: string) {
         return this.userModel.find({
-            $or:[
-                {username : {$regex:key , $option:'i'}}, //$option:'i' ko phan biet chu hoa chu thuong 
-                {email:{$regax:key,$option:'i'}},
-                {fullName:{$regax:key,$option:'i'}}
+            $or: [
+                { username: { $regex: key, $option: 'i' } }, //$option:'i' ko phan biet chu hoa chu thuong 
+                { email: { $regax: key, $option: 'i' } },
+                { fullName: { $regax: key, $option: 'i' } }
             ]
         }).select('-passwordHash').exec();
     }
-    async count(){
+    async count() {
         return this.userModel.countDocuments().exec();
     }
 }

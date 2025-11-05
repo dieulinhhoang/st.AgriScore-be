@@ -12,6 +12,6 @@ export class UsersController {
         if(search){
             return this.UsersService.search(search)
         }
-        return this.findAll();
+        return this.UsersService.findAll();
     }
 }

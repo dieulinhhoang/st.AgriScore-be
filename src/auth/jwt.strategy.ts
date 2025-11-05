@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
         });
     }
-    //tự động chạy khi có request có token
+    //tự động chạy khi có request có token  + để đọc token
     async validate(payload: any) {
         const user = await this.AuthService.validateUser(payload.sub)
         return user;

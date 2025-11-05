@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
-import { LoginDto } from '../auth/login.dto'
+import { LoginDto } from './login.dto'
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../schemas';
 import { Model } from 'mongoose';
